@@ -1,0 +1,7 @@
+# Building a Programming Language from 0.1 - Executing typed_node?
+
+You may have heard of yacc (Yet Another Compiler-Compiler: [https://en.wikipedia.org/wiki/Yacc](https://en.wikipedia.org/wiki/Yacc)). If you think it is literally a compiler that generates full compilers, you might be disappointed—lexical and syntax analysis are only a very small part of a compiler's job. This is not only because lexical and syntax analysis themselves are relatively simple, but also because the functionality of these two phases can be reused via configuration files. Both yacc and the combination of nlexer and syntaxer use configuration files to support different grammars.
+
+After syntaxer generates a `typed_node` tree, how that tree is processed is where the true implementation details of a programming language lie. Simply put, it involves converting the `typed_node` into executable code—such as binary machine code, bytecode, MSIL, or the `primitive` instruction sequence mentioned earlier. Since we have already implemented the `logic` language, we no longer need to convert `typed_node` directly into `primitive` instructions. As long as we can translate it into the `logic` language, we can then use the `logic` compiler to compile it into a `primitive` instruction sequence and execute it on the `primitive` processor.
+
+This is a simple Russian-doll-style layered design. Although the final generated code may not be the most efficient, it drastically simplifies the implementation complexity.

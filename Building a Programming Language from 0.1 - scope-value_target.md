@@ -1,0 +1,9 @@
+# Building a Programming Language from 0.1 - scope/value_target
+
+[Zijie He: Building a Programming Language from 0.1 - read_scoped and Handling value Nodes](https://zhuanlan.zhihu.com/p/104551560) explained the purpose of `value.target` in detail. Simply put, it is a stack used to record "values", allowing values to be nested. For example, `a + b * 1.5` is itself a value formed by adding `a` and `b * 1.5`, while `b * 1.5` is formed by multiplying `b` and `1.5`. At compile time, each "value" node pushes itself onto the stack to await its consumer—for instance, both `b` and `1.5` are placed on the stack, and `*` consumes those two values from the stack and pushes its own result back onto the stack.
+
+- Standard compiler textbooks usually discuss how to handle operator precedence here, but `b2style` does not bother with precedence since parentheses can always be used to make precedence explicit.
+
+Previously, this feature was only implemented in `bstyle` to support nested function calls. `b2style` did not care about it because operators only needed to be rewritten into function calls. However, since `b3style` compiles source code directly into `logic` language instructions, it also needs to implement this functionality.
+
+In essence, this change is very straightforward: it simply moves the contents of the previous [value.target.vb](https://github.com/Hzj-jie/osi.net/blob/c5848e41539a6bd4e5da0c915635af8b77fdeb06/service/compiler/bstyle/logic/nodes/value.target.vb) into [scope.value_target.vb](https://github.com/Hzj-jie/osi.net/blob/master/service/compiler/scope/scope.value_target.vb). The main changes can be found in [Move bstyle/value.target to scope/value_target (#69) · Hzj-jie/osi.net@35df9fb](https://github.com/Hzj-jie/osi.net/commit/35df9fbba6330511b553b57771c985af6ac03ffc).
